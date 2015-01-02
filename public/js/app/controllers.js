@@ -8,8 +8,10 @@ EMPapp.CRUDController = Ember.ObjectController.extend({
 					self.set('isEditing',false);
 					self.controllerFor('application').send('emit','success','Succesfully Updated');
 				},function(){
-					alert("Error while saving");
+					self.controllerFor('application').send('emit','success','Error while saving');
 				});
+			}else{
+				self.set('isEditing',false);
 			}
 		},
 		cancel:function(){
@@ -19,8 +21,6 @@ EMPapp.CRUDController = Ember.ObjectController.extend({
 			this.set('isEditing',false);
 		},
 		edit:function(){
-			//this.target.send('emmit');
-			this.controllerFor('application').send('emit','error','Hola Mundo');
 			this.set('isEditing',true);
 		},
 		delete:function(){

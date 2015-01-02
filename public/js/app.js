@@ -11,12 +11,16 @@ EMPapp = Ember.Application.create({
 });
 
 EMPapp.ApplicationController = Ember.Controller.extend({
-	messages:[{kind:'success',info:'Loaded...'}],
+	messages:[],
 	actions:{
 		emit:function(kind,message){
 			var msgs = this.get('messages');
-			msgs.pushObject({kind:kind,info:message});
+			msgs.pushObject({isSuccess:kind=='success',isError:kind=='error',info:message});
 			this.set('messages',msgs);
+			setTimeout(function(){
+				$('[data-dismiss="alert"]').parent().remove();
+			},1000);
+			
 		}	
 	},
   updateCurrentPath: function() {
@@ -53,4 +57,30 @@ EMPapp.ApplicationAdapter = DS.LSAdapter.extend({
 
 EMPapp.ApplicationAdapter = DS.RESTAdapter.extend({
   	host: 'http://localhost:3000'
+});
+
+
+Handlebars.registerHelper('xif', function (v1, operator, v2, options) {
+
+	console.log(v1, operator, v2);
+    switch (operator) {
+        case '==':
+            return (v1 == v2) ? options.fn(this) : options.inverse(this);
+        case '===':
+            return (v1 === v2) ? options.fn(this) : options.inverse(this);
+        case '<':
+            return (v1 < v2) ? options.fn(this) : options.inverse(this);
+        case '<=':
+            return (v1 <= v2) ? options.fn(this) : options.inverse(this);
+        case '>':
+            return (v1 > v2) ? options.fn(this) : options.inverse(this);
+        case '>=':
+            return (v1 >= v2) ? options.fn(this) : options.inverse(this);
+        case '&&':
+            return (v1 && v2) ? options.fn(this) : options.inverse(this);
+        case '||':
+            return (v1 || v2) ? options.fn(this) : options.inverse(this);
+        default:
+            return options.inverse(this);
+    }
 });

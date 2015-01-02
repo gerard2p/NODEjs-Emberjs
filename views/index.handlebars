@@ -1,7 +1,7 @@
 
 <script type="text/x-handlebars">
 		\{{partial 'messages'}}
-		<h2>CMS test</h2>
+		<h2>Employee App</h2>
 		<aside>
 			<ul class="nav nav-pills">
 			  <li>
@@ -21,7 +21,18 @@
 			\{{#if messages}}
 			<ul class="list-group">
 				\{{#each message in messages}}
-				<li class="list-group-item list-group-item-">\{{message.info}}</li>
+					\{{#if  message.isSuccess }}
+					<li class="list-group-item list-group-item-success">
+						<button type="button" class="close" data-target=".list-group-item" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						\{{message.info}}
+				</li>
+					\{{/if }}
+					\{{#if  message.isError }}
+					<li class="list-group-item list-group-item-danger">
+						<button type="button" class="close" data-target=".list-group-item" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						\{{message.info}}
+						</li>
+					\{{/if }}
 				\{{/each}}
 			</ul>
 			\{{/if}}
@@ -74,6 +85,11 @@
 			<div class="col-md-2 bold">LastName</div>
 			<div class="col-md-10">\{{LastName}}</div>
 		</div>
+		
+		<div class="form-group">
+			<div class="col-md-2 bold">email</div>
+			<div class="col-md-10">\{{email}}</div>
+		</div>
 	</script>
 	
 	<script type="text/x-handlebars" data-template-name="employee/edit">
@@ -86,6 +102,11 @@
 			<label for="title" class="col-md-2 control-label">LastName</label>
 			<div class="col-md-10">
 				\{{input value=LastName placeholder="Last Name" class="form-control"}}
+			</div>
+			
+			<label for="title" class="col-md-2 control-label">email</label>
+			<div class="col-md-10">
+				\{{input value=email placeholder="email" class="form-control"}}
 			</div>
 			
 		</div>

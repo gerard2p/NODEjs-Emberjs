@@ -19,9 +19,14 @@ router.post('/',function(req,res){
 });
 
 router.put('/:id',function(req,res){
-	req.body.updateddAt = new Date();
-	new db.employee(req.body).save(function(err,data,count){
-		res.send(JSON.stringify(data));
+	db.employee.findById(req.params.id,function(err,record){
+		record.Name = req.body.employee.Name;
+		record.LastName = req.body.employee.LastName;
+		record.email = req.body.employee.email;
+		record.updateddAt = new Date();
+		record.save(function(err,data,count){
+			res.send(JSON.stringify(data));
+		});
 	});
 	
 });

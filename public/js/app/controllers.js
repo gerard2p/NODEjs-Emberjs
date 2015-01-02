@@ -42,9 +42,14 @@ EMPapp.EmployeeController = EMPapp.CRUDController.extend();
 EMPapp.EmployeesNewController = Ember.ObjectController.extend({
 	actions:{
 		save:function(){
-			this.get('model').save();
-			var route = EMPapp.get('currentPath').split('.')[0];
-			this.transitionToRoute(route);
+			var self=this;
+			if(self.model.get('isNew')){
+				self.model.save().then(function(){
+					self.controllerFor('application').send('emit','success','Succesfully Created');
+					var route = EMPapp.get('currentPath').split('.')[0];
+					self.transitionToRoute(route);
+				});
+			}
 		}
 	}
 });

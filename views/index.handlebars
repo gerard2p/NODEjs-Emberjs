@@ -1,0 +1,104 @@
+
+<script type="text/x-handlebars">
+		\{{partial 'messages'}}
+		<h2>CMS test</h2>
+		<aside>
+			<ul class="nav nav-pills">
+			  <li>
+				  <a href="#">Home</a>
+			  </li>
+				<li>
+					\{{#link-to 'employees'}}Employee\{{/link-to}}
+				</li>
+			</ul>
+		</aside>
+		<section class="jumbotron">
+			\{{outlet}}
+		</section>
+	</script>
+	<script type="text/x-handlebars" data-template-name="messages">
+		<section>
+			\{{#if messages}}
+			<ul class="list-group">
+				\{{#each message in messages}}
+				<li class="list-group-item list-group-item-">\{{message.info}}</li>
+				\{{/each}}
+			</ul>
+			\{{/if}}
+		</section>
+	</script>
+	<script type="text/x-handlebars" id="employees">
+		<div class="row">
+			<div class="col-md-3">
+				<div id="employees-list" class="list-group">
+					\{{#link-to 'employees.new' class="list-group-item bold"}}New Employee\{{/link-to}}
+					\{{#each}}
+						\{{#link-to 'employee' this class="list-group-item"}} \{{Name}} \{{/link-to}}
+					\{{/each}}
+				</div>
+			</div>
+			<div class="col-md-9 white jumbotron">
+				\{{outlet}}
+			</div>
+		</div>
+	</script>
+	
+	<script type="text/x-handlebars" data-template-name="employee">
+		<div class="row">
+			<div class="btn-group" role="group" aria-label="...">
+				\{{#if isEditing}}
+					<button type="button" class="btn btn-default" \{{action 'cancel'}}>Cancel</button>
+					<button type="button" class="btn btn-success" \{{action 'save'}}>Save</button>
+				\{{else}}
+					<button type="button" class="btn btn-info" \{{action 'edit'}}>Edit</button>
+					<button type="button" class="btn btn-danger" \{{action 'delete'}}>Delete</button>
+				\{{/if}}
+			</div>
+		</div>
+		<div class="row"><br/></div>
+		<div class="row">
+			\{{#if isEditing}}
+				\{{partial 'employee/edit'}}
+			\{{else}}
+				\{{partial 'employee/show'}}
+			\{{/if}}
+		</div>
+	</script>
+	
+	<script type="text/x-handlebars" data-template-name="employee/show">
+		<div class="form-group">
+			<div class="col-md-2 bold">Name</div>
+			<div class="col-md-10">\{{Name}}</div>
+		</div>
+		<div class="form-group">
+			<div class="col-md-2 bold">LastName</div>
+			<div class="col-md-10">\{{LastName}}</div>
+		</div>
+	</script>
+	
+	<script type="text/x-handlebars" data-template-name="employee/edit">
+		<div class="form-group">
+			<label for="title" class="col-md-2 control-label">Name</label>
+			<div class="col-md-10">
+				\{{input value=Name placeholder="Name" class="form-control"}}
+			</div>
+			
+			<label for="title" class="col-md-2 control-label">LastName</label>
+			<div class="col-md-10">
+				\{{input value=LastName placeholder="Last Name" class="form-control"}}
+			</div>
+			
+		</div>
+	</script>
+
+<!-- to activate the test runner, add the "?test" query string parameter -->
+<script type="text/x-handlebars" data-template-name="employees/new">
+	<form class="form-horizontal" role="form">
+		\{{partial 'employee/edit'}}
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-10">
+			<button type="submit" class="btn btn-success" \{{action 'save'}}>Save</button>
+			</div>
+		</div>
+	</form>
+</script>

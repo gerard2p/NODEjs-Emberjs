@@ -1,80 +1,83 @@
-
 <script type="text/x-handlebars">
-		\{{partial 'messages'}}
-		<h2>Employee App</h2>
-		<aside>
-			<ul class="nav nav-pills">
-			  <li>
-				  <a href="#">Home</a>
-			  </li>
-				<li>
-					\{{#link-to 'employees'}}Employee\{{/link-to}}
-				</li>
-			</ul>
-		</aside>
-		<section class="jumbotron">
-			\{{outlet}}
-		</section>
-	</script>
-	<script type="text/x-handlebars" data-template-name="messages">
-		<section>
-			\{{#if messages}}
-			<ul class="list-group">
-				\{{#each message in messages}}
-					\{{#if  message.isSuccess }}
-					<li class="list-group-item list-group-item-success">
-						<button type="button" class="close" data-target=".list-group-item" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						\{{message.info}}
-				</li>
-					\{{/if }}
-					\{{#if  message.isError }}
-					<li class="list-group-item list-group-item-danger">
-						<button type="button" class="close" data-target=".list-group-item" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						\{{message.info}}
-						</li>
-					\{{/if }}
+	\{{partial 'messages'}}
+	<h2>Employee App</h2>
+	<aside>
+		<ul class="nav nav-pills">
+		  <li>
+			  <a href="#">Home</a>
+		  </li>
+			<li>
+				\{{#link-to 'employees'}}Employee\{{/link-to}}
+			</li>
+		</ul>
+	</aside>
+	<section class="jumbotron">
+		\{{outlet}}
+	</section>
+</script>
+
+<script type="text/x-handlebars" data-template-name="messages">
+	<section>
+		\{{#if messages}}
+		<ul class="list-group">
+			\{{#each message in messages}}
+				\{{#if  message.isSuccess }}
+				<li class="list-group-item list-group-item-success">
+					<button type="button" class="close" data-target=".list-group-item" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					\{{message.info}}
+			</li>
+				\{{/if }}
+				\{{#if  message.isError }}
+				<li class="list-group-item list-group-item-danger">
+					<button type="button" class="close" data-target=".list-group-item" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					\{{message.info}}
+					</li>
+				\{{/if }}
+			\{{/each}}
+		</ul>
+		\{{/if}}
+	</section>
+</script>
+
+<script type="text/x-handlebars" id="employees">
+	<div class="row">
+		<div class="col-md-3">
+			<div id="employees-list" class="list-group">
+				\{{#link-to 'employees.new' class="list-group-item bold"}}New Employee\{{/link-to}}
+				\{{#each}}
+					\{{#if FullName}}
+						\{{#link-to 'employee' this class="list-group-item"}} \{{FullName}} \{{/link-to}}
+					\{{/if}}
 				\{{/each}}
-			</ul>
-			\{{/if}}
-		</section>
-	</script>
-	<script type="text/x-handlebars" id="employees">
-		<div class="row">
-			<div class="col-md-3">
-				<div id="employees-list" class="list-group">
-					\{{#link-to 'employees.new' class="list-group-item bold"}}New Employee\{{/link-to}}
-					\{{#each}}
-						\{{#link-to 'employee' this class="list-group-item"}} \{{Name}} \{{/link-to}}
-					\{{/each}}
-				</div>
-			</div>
-			<div class="col-md-9 white jumbotron">
-				\{{outlet}}
 			</div>
 		</div>
-	</script>
+		<div class="col-md-9 white jumbotron">
+			\{{outlet}}
+		</div>
+	</div>
+</script>
 	
-	<script type="text/x-handlebars" data-template-name="employee">
-		<div class="row">
-			<div class="btn-group" role="group" aria-label="...">
-				\{{#if isEditing}}
-					<button type="button" class="btn btn-default" \{{action 'cancel'}}>Cancel</button>
-					<button type="button" class="btn btn-success" \{{action 'save'}}>Save</button>
-				\{{else}}
-					<button type="button" class="btn btn-info" \{{action 'edit'}}>Edit</button>
-					<button type="button" class="btn btn-danger" \{{action 'delete'}}>Delete</button>
-				\{{/if}}
-			</div>
-		</div>
-		<div class="row"><br/></div>
-		<div class="row">
+<script type="text/x-handlebars" data-template-name="employee">
+	<div class="row">
+		<div class="btn-group" role="group" aria-label="...">
 			\{{#if isEditing}}
-				\{{partial 'employee/edit'}}
+				<button type="button" class="btn btn-default" \{{action 'cancel'}}>Cancel</button>
+				<button type="button" class="btn btn-success" \{{action 'save'}}>Save</button>
 			\{{else}}
-				\{{partial 'employee/show'}}
+				<button type="button" class="btn btn-info" \{{action 'edit'}}>Edit</button>
+				<button type="button" class="btn btn-danger" \{{action 'delete'}}>Delete</button>
 			\{{/if}}
 		</div>
-	</script>
+	</div>
+	<div class="row"><br/></div>
+	<div class="row">
+		\{{#if isEditing}}
+			\{{partial 'employee/edit'}}
+		\{{else}}
+			\{{partial 'employee/show'}}
+		\{{/if}}
+	</div>
+</script>
 	
 	<script type="text/x-handlebars" data-template-name="employee/show">
 		<div class="form-group">
